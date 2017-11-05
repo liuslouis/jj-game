@@ -1,0 +1,213 @@
+<html>
+    <head>
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
+
+
+        <link rel="stylesheet" type="text/css" href="cards.css" media="screen" />
+        <script type="text/javascript"><!--
+        $(document).ready(function(){
+            $('.options').addClass('active');
+            $('.toggle li').click(function(){
+                $('.playingCards').toggleClass($(this).text());
+            });
+            $('.lang li').click(function(){
+                $('html').attr('lang', $(this).text());
+                $('html').attr('xml:lang', $(this).text());
+            });
+        });
+        //--></script>
+        <style type="text/css">
+            body {
+                margin: 2em 20%;
+            }
+            .options.active {
+                position: fixed;
+                top: 1em;
+                right: 1em;
+                background: #ddd;
+                padding: .5em;
+            }
+            .options.active h3 {
+                font-size: 1.2em;
+            }
+            .options.active ul {
+                padding: 0;
+            }
+            .options.active li {
+                color: #00c;
+                text-decoration: underline;
+                margin-left: 1.5em;
+                cursor: pointer;
+            }
+            .options.active li:hover {
+                text-decoration: none;
+            }
+            div.clear {
+                clear: both;
+                height: 0;
+                line-height: 0;
+                font-size: 1px;
+                visibility: hidden;
+            }
+        </style>
+
+    </head>
+
+<body>
+  {% if not is_authenticated %}
+  <div>
+      <p>
+          <input type=text id='http-user-set' placeholder="User to login...">
+          <button class="pure-button pure-button-primary" id="login-http">Login</button>
+          <button class="pure-button pure-button-primary" id="logout-http">Logout</button>
+      </p>
+      <button class="pure-button pure-button-primary" id="start-game" onclick="location.href = '/';" >Start</button>
+      <p>Current user: <b><span id="socketio-user"></span></b></p>
+  </div>
+  {% else %}
+
+        <div>
+            <p>
+                <button class="pure-button pure-button-primary" id="logout-http">Logout</button>
+            </p>
+            <p>Current user: <b><span id="socketio-user"></span></b></p>
+        </div>
+
+
+<!--        <div>
+          Value: {{value}}
+          <form id="testform">
+              <input type="submit" value="testform">
+          </form>
+        </div>
+-->
+
+
+        <div>
+        Round Player: {{ round_player }}
+        <p>Remaining Cards
+          {% for player in oppo_players %}
+          <b>Player {{ player.id }}: {{ player.cnt }} </b>
+          {% endfor %}
+        </p>
+        <div>
+
+
+        <div class="playingCards faceImages"> <!--fourColours-->
+            <h4>Player {{ round_last }}</h4>
+
+            <ul class="hand">
+                {% for card in round_cards %}
+                <li>
+                    <div for="{{ card.label }}" class="{{ card.cssclass }}">
+                        <span class="rank">{{ card.rank }}</span>
+                        <span class="suit">{{ card.suit|safe }}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="clear"></div>
+
+
+            {% for player in user_players %}
+            <form class="form-playerhand" id="playerhand{{player.id}}">
+
+                <h4>
+                  Player {{ player.id }}
+                  {% if player.id == round_player %}
+                  <button type="submit">Go</button>
+                  {% endif %}
+                </h4>
+
+                <ul class="hand">
+                    {% for card in player.cards %}
+                    <li>
+                        <label for="{{ card.label }}" class="{{ card.cssclass }}">
+                            <span class="rank">{{ card.rank }}</span>
+                            <span class="suit">{{ card.suit|safe }}</span>
+                            <input type="checkbox" name="{{ card.label }}" id="{{ card.label }}" value="select" />
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="clear"></div>
+            </form>
+            {% endfor %}
+        </div>
+
+  {% endif %}
+
+        <script>
+        $(document).ready(function() {
+
+            $('#login-http').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/session',
+                    data: JSON.stringify({user: $('#http-user-set').val()}),
+                    contentType: 'application/json'
+                });
+            });
+            $('#logout-http').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '/session',
+                    data: JSON.stringify({user: null}),
+                    contentType: 'application/json'
+                });
+                location.href = '/';
+            });
+
+
+            // Socket.IO handlers
+            var socket = null;
+
+            if (!socket) {
+                console.log(location.href);
+                socket = io.connect(location.href);
+                socket.on('refresh-session', function(data) {
+                    $('#socketio-session').text(data['session']);
+                    $('#socketio-user').text(data['user']);
+                });
+            }
+            else {
+                socket.disconnect();
+                socket = null;
+                $('#socketio-session').text('');
+                $('#socketio-user').text('');
+            };
+
+            window.setInterval(function() {
+                if (socket)
+                    socket.emit('get-session');
+            }, 1000);
+
+            // Next Round Signal Broadcast
+
+            $('form#playerhand{{player.id}}').submit(function(event) {
+                $.ajax({
+                    url: '/send',
+                    data: $('form#playerhand{{player.id}}').serialize(),
+                    type: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+                socket.emit('ready4next');
+                return false;
+            });
+
+            socket.on('next-round', function() {
+                window.location.replace("/"); // refresh page
+            });
+
+        });
+        </script>
+</body>
+</html>
