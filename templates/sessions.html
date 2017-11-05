@@ -72,7 +72,7 @@
 
         <div>
             <p>
-                <button class="pure-button pure-button-primary" id="logout-http">Logout</button>
+                <button class="pure-button pure-button-primary" id="init" onclick="location.href = '/init';">Restart</button>
             </p>
             <p>Current user: <b><span id="socketio-user"></span></b></p>
         </div>
@@ -159,7 +159,6 @@
                     data: JSON.stringify({user: null}),
                     contentType: 'application/json'
                 });
-                location.href = '/';
             });
 
 

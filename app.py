@@ -91,14 +91,21 @@ def set_session(data):
 ################################################################################
 
 #app.gamecards = ['As1', '8c4', '+j1']
-g = Game()
+app.g = Game()
+@app.route('/init')
+def restart():
+    app.g = Game()
+    return redirect('/')
+
 
 @app.route('/')
 def refresh():
+
     is_authenticated = current_user.is_authenticated
     if not is_authenticated:
         return render_template('sessions.html', is_authenticated=is_authenticated)
 
+    g = app.g
     info = {}
     print(app.current_user_info)
     user_playerids = app.current_user_info[current_user.id]#[0, 2, 4]
@@ -138,6 +145,7 @@ def update():
     app.count += 1
     print(cards)
     ###
+    g = app.g
     g.play(g.get_round_player_id(), cards)
     ###
     return Response('success', status=203)
