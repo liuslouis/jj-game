@@ -42,7 +42,6 @@ class Hand():
             return self.length == other.length and self.base > other.base and self.joker > other.joker
 
 
-
 class Game():
     card_list = [k + l for k in [i + j for i in ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K']
                                  for j in ['s', 'c', 'h', 'd']]
@@ -92,7 +91,6 @@ class Game():
             else:
                 raise ValueError(
                     "{} does not belong to player {}".format(card, player))
-                exit 1
         return self.cards_count[player]
 
     def play(self, player, cards=[]):
@@ -124,16 +122,18 @@ class Game():
     def get_next_player(self, _pass, jj):
         if not _pass:
             self.last_active = self.active
-            for i in range(1: 6):
+            for i in range(1, 6):
                 if self.cards_count[(self.active + i) % 6] != 0:
                     self.active = (self.active + i) % 6
-            self.active = (self.active + 1) % 6
+                    print(self.active)
+                    break
         if _pass:
-            for i in range(1: 6):
-                if self.last_active == (self.active + i) % 6 
+            for i in range(1, 6):
+                if self.last_active == (self.active + i) % 6:
                     self.table = []
                 if self.cards_count[(self.active + i) % 6] != 0:
                     self.active = (self.active + i) % 6
+                    break
             raise ValueError("Get_net_player")
         print("Next player is player {}".format(self.active))
         print(self.table)
