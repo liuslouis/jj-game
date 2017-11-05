@@ -46,10 +46,10 @@ class Hand():
 #              + ['-j', '+j']
 #              for l in ['1', '2', '3', '4']]
 class Game():
-    card_list = [k + l for k in [i + j for i in ['A', '2', 'Q', 'K']
-                                 for j in ['s', 'c', 'h', 'd']]
-                 + ['-j', '+j']
-                 for l in ['1', '2', '3', '4']]
+    card_list = [k + l for k in [i + j for i in ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K']
+                             for j in ['s', 'c', 'h', 'd']]
+             + ['-j', '+j']
+             for l in ['1', '2', '3', '4']]
 
     def __init__(self):
         self.table = []
