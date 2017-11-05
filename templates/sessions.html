@@ -67,6 +67,7 @@
       <button class="pure-button pure-button-primary" id="start-game" onclick="location.href = '/';" >Start</button>
       <p>Current user: <b><span id="socketio-user"></span></b></p>
   </div>
+
   {% else %}
 
         <div>
@@ -138,7 +139,7 @@
             {% endfor %}
         </div>
 
-  {% endif %}
+{% endif %}
 
         <script>
         $(document).ready(function() {
@@ -187,10 +188,90 @@
 
             // Next Round Signal Broadcast
 
-            $('form#playerhand{{player.id}}').submit(function(event) {
+            $('form#playerhand0').submit(function(event) {
                 $.ajax({
                     url: '/send',
-                    data: $('form#playerhand{{player.id}}').serialize(),
+                    data: $('form#playerhand0').serialize(),
+                    type: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+                socket.emit('ready4next');
+                return false;
+            });
+
+            $('form#playerhand1').submit(function(event) {
+                $.ajax({
+                    url: '/send',
+                    data: $('form#playerhand1').serialize(),
+                    type: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+                socket.emit('ready4next');
+                return false;
+            });
+
+            $('form#playerhand2').submit(function(event) {
+                $.ajax({
+                    url: '/send',
+                    data: $('form#playerhand2').serialize(),
+                    type: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+                socket.emit('ready4next');
+                return false;
+            });
+
+            $('form#playerhand3').submit(function(event) {
+                $.ajax({
+                    url: '/send',
+                    data: $('form#playerhand3').serialize(),
+                    type: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+                socket.emit('ready4next');
+                return false;
+            });
+
+            $('form#playerhand4').submit(function(event) {
+                $.ajax({
+                    url: '/send',
+                    data: $('form#playerhand4').serialize(),
+                    type: 'POST',
+                    success: function(response) {
+                        console.log(response);
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+                socket.emit('ready4next');
+                return false;
+            });
+
+            $('form#playerhand5').submit(function(event) {
+                $.ajax({
+                    url: '/send',
+                    data: $('form#playerhand5').serialize(),
                     type: 'POST',
                     success: function(response) {
                         console.log(response);
@@ -209,5 +290,6 @@
 
         });
         </script>
+
 </body>
 </html>

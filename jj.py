@@ -26,7 +26,7 @@ class Hand():
             else:
                 self.length = len(self.cards)
 
-            if self.base == 11 and self.length == 1: 
+            if self.base == 11 and self.length == 1:
                 self.jj = False
             elif self.base + self.length >= 12:
                 self.jj = True
@@ -41,9 +41,12 @@ class Hand():
         else:
             return self.length == other.length and self.base > other.base and self.joker > other.joker
 
-
+# card_list = [k + l for k in [i + j for i in ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K']
+#                              for j in ['s', 'c', 'h', 'd']]
+#              + ['-j', '+j']
+#              for l in ['1', '2', '3', '4']]
 class Game():
-    card_list = [k + l for k in [i + j for i in ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K']
+    card_list = [k + l for k in [i + j for i in ['A', '2', 'Q', 'K']
                                  for j in ['s', 'c', 'h', 'd']]
                  + ['-j', '+j']
                  for l in ['1', '2', '3', '4']]
@@ -169,4 +172,3 @@ class Game():
 
     def get_round_player_id(self):
         return self.active
-
