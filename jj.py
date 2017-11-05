@@ -167,6 +167,6 @@ class Game():
     def get_ncards(self, i):
         return self.cards_count[i]
 
-    def get_round_player_id(self, i):
+    def get_round_player_id(self):
         return self.active
 
