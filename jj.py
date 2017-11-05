@@ -114,7 +114,8 @@ class Game():
             return True
         if h > t:
             self.table = cards
-            if self.subtract(player, cards) == 0:
+            self.subtract(player, cards)
+            if self.cards_count[player] == 0:
                 self.player_win(player)
             self.get_next_player(False, h.jj or t.jj)
             return True
@@ -137,7 +138,7 @@ class Game():
                 if self.cards_count[(self.active + i) % 6] != 0:
                     self.active = (self.active + i) % 6
                     break
-            raise ValueError("Get_net_player")
+            # raise ValueError("Get_next_player")
         print("Next player is player {}".format(self.active))
         print(self.table)
         print(self.get_cards(self.active))
