@@ -87,14 +87,19 @@
 -->
 
 
-        <div>
-        Round Player: {{ round_player }}
-        <p>Remaining Cards
-          {% for player in oppo_players %}
-          <b>Player {{ player.id }}: {{ player.cnt }} </b>
-          {% endfor %}
-        </p>
-        <div>
+<table>
+  <tr>
+    {% for player in oppo_players %}
+    <td>Player {{ player.id }}</td>
+    {% endfor %}
+  </tr>
+  <tr>
+    {% for player in oppo_players %}
+    <th>{{ player.cnt }}</th>
+    {% endfor %}
+  </tr>
+</table>
+<p>Round Player: {{ round_player }}</p>
 
 
         <div class="playingCards faceImages"> <!--fourColours-->
