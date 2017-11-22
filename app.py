@@ -158,4 +158,8 @@ def send_next():
 
 
 if __name__ == '__main__':
-    socketio.run(app, host='0.0.0.0', port=7777)
+    import logging
+    log = logging.getLogger('werkzeug')
+    log.setLevel(logging.ERROR)
+    
+    socketio.run(app, host='0.0.0.0', port=7777, log_output=False)
