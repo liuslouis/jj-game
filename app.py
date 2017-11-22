@@ -32,12 +32,12 @@ def game_login_current_user():
     if current_user.id not in app.current_user_info:
         tmp = len(app.current_user_ids)-1
         app.current_user_info[current_user.id] = [0+tmp, 2+tmp, 4+tmp]
-        print(app.current_user_info)
+        print('Someone Logged in:', app.current_user_info)
 
 def game_logout_current_user():
     app.current_user_ids.remove(current_user.id)
     app.current_user_info.pop(current_user.id)
-    print(app.current_user_info)
+    print('Someone Logged out:', app.current_user_info)
 
 class User(UserMixin, object):
     def __init__(self, id=None):
@@ -87,6 +87,8 @@ app.g = Game()
 @app.route('/init')
 def restart():
     app.g = Game()
+    print('\nStart a new game.')
+    #emit('next-round', broadcast=True)
     return redirect('/')
 
 
