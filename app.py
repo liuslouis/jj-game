@@ -26,6 +26,19 @@ socketio = SocketIO(app, manage_session=False)
 
 app.current_user_ids = set([])
 app.current_user_info = {}
+
+def game_login_current_user():
+    app.current_user_ids.add(current_user.id)
+    if current_user.id not in app.current_user_info:
+        tmp = len(app.current_user_ids)-1
+        app.current_user_info[current_user.id] = [0+tmp, 2+tmp, 4+tmp]
+        print(app.current_user_info)
+
+def game_logout_current_user():
+    app.current_user_ids.remove(current_user.id)
+    app.current_user_info.pop(current_user.id)
+    print(app.current_user_info)
+
 class User(UserMixin, object):
     def __init__(self, id=None):
         self.id = id
@@ -50,16 +63,10 @@ def session_access():
     elif 'user' in data:
         if data['user']:
             login_user(User(data['user']))
-            app.current_user_ids.add(current_user.id)
-            if current_user.id not in app.current_user_info:
-                tmp = len(app.current_user_ids)-1
-                app.current_user_info[current_user.id] = [0+tmp, 2+tmp, 4+tmp]
-            print(app.current_user_info)
+            game_login_current_user()
         else:
-            app.current_user_ids.remove(current_user.id)
-            app.current_user_info.pop(current_user.id)
+            game_logout_current_user()
             logout_user()
-            print(app.current_user_info)
     return '', 204
 
 
@@ -70,23 +77,6 @@ def get_session():
         'user': current_user.id
             if current_user.is_authenticated else 'anonymous'
     })
-
-
-@socketio.on('set-session')
-def set_session(data):
-    if 'session' in data:
-        session['value'] = data['session']
-    elif 'user' in data:
-        if data['user'] is not None:
-            login_user(User(data['user']))
-            app.current_user_ids.add(current_user.id)
-            if current_user.id not in app.current_user_info:
-                tmp = len(app.current_user_ids)-1
-                app.current_user_info[current_user.id] = [0+tmp, 2+tmp, 4+tmp]
-        else:
-            app.current_user_ids.remove(current_user.id)
-            app.current_user_info.pop(current_user.id)
-            logout_user()
 
 ################################################################################
 # Game Play: View Section
@@ -107,9 +97,13 @@ def refresh():
     if not is_authenticated:
         return render_template('sessions.html', is_authenticated=is_authenticated)
 
+    # Only authenticated user comes to the following lines
     g = app.g
+    # an authenticated user is correctly logged in the game
+    if current_user.id not in app.current_user_ids:
+        game_login_current_user()
+
     info = {}
-    print(app.current_user_info)
     user_playerids = app.current_user_info[current_user.id]#[0, 2, 4]
     oppo_playerids = [0, 1, 2, 3, 4, 5]
     info['user_players'] = []
