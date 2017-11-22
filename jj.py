@@ -105,9 +105,9 @@ class Game():
         if h.length < 0:
             print("Ilegal hands as {}".format(cards))
             return False
-        if t.length == 0 and h.length == 0 and self.cards_count[player] != 0:
-            print("You have to play something")
-            return False
+        #if t.length == 0 and h.length == 0 and self.cards_count[player] != 0:
+        #    print("You have to play something")
+        #    return False
         if h.length == 0:
             print("Pass")
             self.get_next_player(True, t.jj)
