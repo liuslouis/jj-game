@@ -54,10 +54,12 @@ def session_access():
             if current_user.id not in app.current_user_info:
                 tmp = len(app.current_user_ids)-1
                 app.current_user_info[current_user.id] = [0+tmp, 2+tmp, 4+tmp]
+            print(app.current_user_info)
         else:
-            logout_user()
             app.current_user_ids.remove(current_user.id)
             app.current_user_info.pop(current_user.id)
+            logout_user()
+            print(app.current_user_info)
     return '', 204
 
 
@@ -82,9 +84,9 @@ def set_session(data):
                 tmp = len(app.current_user_ids)-1
                 app.current_user_info[current_user.id] = [0+tmp, 2+tmp, 4+tmp]
         else:
-            logout_user()
             app.current_user_ids.remove(current_user.id)
             app.current_user_info.pop(current_user.id)
+            logout_user()
 
 ################################################################################
 # Game Play: View Section
@@ -161,5 +163,5 @@ if __name__ == '__main__':
     import logging
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
-    
+
     socketio.run(app, host='0.0.0.0', port=7777, log_output=False)
