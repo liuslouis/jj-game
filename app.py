@@ -84,12 +84,11 @@ def get_session():
 
 #app.gamecards = ['As1', '8c4', '+j1']
 app.g = Game()
-@app.route('/init')
+@socketio.on('init')
 def restart():
     app.g = Game()
     print('\nStart a new game.')
-    #emit('next-round', broadcast=True)
-    return redirect('/')
+    emit('next-round', broadcast=True)
 
 
 @app.route('/')
