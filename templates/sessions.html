@@ -120,6 +120,7 @@
 
             {% for player in user_players %}
             <form class="form-playerhand" id="playerhand{{player.id}}">
+                <input id="hiddenplayerid" name="playerid" type="hidden" value="{{player.id}}">
 
                 <h4>
                   Player {{ player.id }}

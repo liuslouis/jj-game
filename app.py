@@ -124,7 +124,7 @@ def refresh():
         player['cnt'] = g.get_ncards(j)
         info['oppo_players'].append(player)
 
-    print(url_for('static', filename='cards.css'))
+    #print(url_for('static', filename='cards.css'))
 
     return render_template('sessions.html', is_authenticated=is_authenticated,
                            value=app.count, **info)
@@ -137,18 +137,21 @@ app.count = 0
 
 @app.route('/send', methods=['POST'])
 def update():
-    cards = list(request.form.to_dict().keys())
+    form = request.form.to_dict()
+
+    round_player_id = int(form.pop('playerid'))
+    cards = list(form.keys())
     app.count += 1
-    print(cards)
+
     ###
     g = app.g
-    g.play(g.get_round_player_id(), cards)
+    round_status = g.play(round_player_id, cards)
     ###
-    return Response('success', status=203)
+    return Response('success', status=200)
 
 @socketio.on('ready4next')
 def send_next():
-    print('\n\n\nhere11111\n\n\n')
+    print('Broadcast Next Round.\n')
     emit('next-round', broadcast=True)
 
 
