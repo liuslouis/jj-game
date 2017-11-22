@@ -64,7 +64,8 @@
           <button class="pure-button pure-button-primary" id="login-http">Login</button>
           <button class="pure-button pure-button-primary" id="logout-http">Logout</button>
       </p>
-      <button class="pure-button pure-button-primary" id="start-game" onclick="location.href = '/';" >Start</button>
+      <!--<button class="pure-button pure-button-primary" id="start-game" onclick="location.href = '/';" >Start</button>-->
+      <button class="pure-button pure-button-primary" id="init">Start</button>
       <p>Current user: <b><span id="socketio-user"></span></b></p>
   </div>
 
@@ -73,6 +74,7 @@
         <div>
             <p>
                 <button class="pure-button pure-button-primary" id="init">Restart</button>
+                <button class="pure-button pure-button-primary" id="logout-http">Logout</button>
             </p>
             <p>Current user: <b><span id="socketio-user"></span></b></p>
         </div>
@@ -165,6 +167,7 @@
                     data: JSON.stringify({user: null}),
                     contentType: 'application/json'
                 });
+                window.location.replace("/");
             });
             $('#init').click(function() {
                 socket.emit('init');
