@@ -134,10 +134,10 @@
                 <ul class="hand">
                     {% for card in player.cards %}
                     <li>
-                        <label for="{{ card.label }}" class="{{ card.cssclass }}">
+                        <label for="{{ card.label }}" class="{{ card.cssclass }}" id="lb{{ card.label }}">
                             <span class="rank">{{ card.rank }}</span>
                             <span class="suit">{{ card.suit|safe }}</span>
-                            <input type="checkbox" name="{{ card.label }}" id="{{ card.label }}" value="select" />
+                            <input class="cardcheckbox" type="checkbox" name="{{ card.label }}" id="{{ card.label }}" value="select" />
                         </label>
                     </li>
                     {% endfor %}
@@ -298,6 +298,20 @@
             socket.on('next-round', function() {
                 window.location.replace("/"); // refresh page
             });
+
+            $('.cardcheckbox').hide();
+
+            $('.cardcheckbox').click(function(){
+                var labelcardid = '#lb'+this.id;
+                if (this.checked) {
+                    console.log(labelcardid);
+                    $(labelcardid).css('bottom', '0.8em');
+                }
+                else {
+                    $(labelcardid).css('bottom', '0em');
+                }
+            });
+
 
         });
         </script>
