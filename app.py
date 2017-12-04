@@ -128,7 +128,7 @@ def refresh():
     #print(url_for('static', filename='cards.css'))
 
     return render_template('sessions.html', is_authenticated=is_authenticated,
-                           value=app.count, **info)
+                           online_users=app.current_user_ids, **info)
 
 ################################################################################
 # Game Play: Control Section

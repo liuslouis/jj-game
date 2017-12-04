@@ -71,37 +71,31 @@
 
   {% else %}
 
-        <div>
-            <p>
-                <button class="pure-button pure-button-primary" id="init">Restart</button>
-                <button class="pure-button pure-button-primary" id="logout-http">Logout</button>
-            </p>
-            <p>Current user: <b><span id="socketio-user"></span></b></p>
-        </div>
+  <div>
+      <table align="right">
+        <tr>
+          {% for player in oppo_players %}
+          <td>Player {{ player.id }}</td>
+          {% endfor %}
+        </tr>
+        <tr>
+          {% for player in oppo_players %}
+          <th>{{ player.cnt }}</th>
+          {% endfor %}
+        </tr>
+      </table>
 
+      <p>
+          <button class="pure-button pure-button-primary" id="init">Restart</button>
+          <button class="pure-button pure-button-primary" id="logout-http">Logout</button>
+          &nbsp;
+          Hi, <b><span id="socketio-user"></span></b>!
+          &nbsp;
+          Current users: <b>{{online_users}}</b>
+      </p>
 
-<!--        <div>
-          Value: {{value}}
-          <form id="testform">
-              <input type="submit" value="testform">
-          </form>
-        </div>
--->
-
-
-<table>
-  <tr>
-    {% for player in oppo_players %}
-    <td>Player {{ player.id }}</td>
-    {% endfor %}
-  </tr>
-  <tr>
-    {% for player in oppo_players %}
-    <th>{{ player.cnt }}</th>
-    {% endfor %}
-  </tr>
-</table>
-<p>Round Player: {{ round_player }}</p>
+      <p>Round Player: {{ round_player }}</p>
+  </div>
 
 
         <div class="playingCards faceImages"> <!--fourColours-->
@@ -147,6 +141,7 @@
             {% endfor %}
         </div>
 
+<!--HTML ENDs Here-->
 {% endif %}
 
         <script>
