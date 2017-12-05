@@ -160,5 +160,5 @@ if __name__ == '__main__':
     import logging
     log = logging.getLogger('werkzeug')
     log.setLevel(logging.ERROR)
-
+    print('Server Starts.')
     socketio.run(app, host='0.0.0.0', port=7777, log_output=False)
