@@ -23,7 +23,7 @@ def format_cards(str_cards):
             card['label'] = c
             card['rank'] = c[0]
             card['suit'] = 'Joker'
-            card['cssclass'] = "card big joker" if c[0] == 'B' else "card little joker"
+            card['cssclass'] = "card big joker" if c[0] == 'U' else "card little joker"
             cards.append(card)
     #print(cards)
     return cards

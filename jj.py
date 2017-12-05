@@ -3,7 +3,7 @@
 
 class Hand():
     comparison = dict(zip(
-        ['3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A', '2', '-', '+'], range(0, 15)))
+        ['3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A', '2', 'D', 'U'], range(0, 15)))
 
     def __init__(self, cards=[]):
         if not cards:
@@ -14,14 +14,14 @@ class Hand():
             self.minimum = min(self.cards, key=lambda x: Hand.comparison[x])
             self.base = Hand.comparison[self.minimum]
 
-            if '+' in self.cards:
+            if 'U' in self.cards:
                 self.joker = 2
-            elif '-' in self.cards:
+            elif 'D' in self.cards:
                 self.joker = 1
             else:
                 self.joker = 0
 
-            if len(set(self.cards) - {self.minimum, '2', '-', '+'}):
+            if len(set(self.cards) - {self.minimum, '2', 'D', 'U'}):
                 self.length = -1
             else:
                 self.length = len(self.cards)
@@ -41,14 +41,11 @@ class Hand():
         else:
             return self.length == other.length and self.base > other.base and self.joker > other.joker
 
-# card_list = [k + l for k in [i + j for i in ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K']
-#                              for j in ['s', 'c', 'h', 'd']]
-#              + ['-j', '+j']
-#              for l in ['1', '2', '3', '4']]
+
 class Game():
     card_list = [k + l for k in [i + j for i in ['A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K']
                              for j in ['s', 'c', 'h', 'd']]
-             + ['-j', '+j']
+             + ['Dj', 'Uj']
              for l in ['1', '2', '3', '4']]
 
     def __init__(self):
