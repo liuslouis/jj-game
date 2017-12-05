@@ -82,7 +82,6 @@ def get_session():
 # Game Play: View Section
 ################################################################################
 
-#app.gamecards = ['As1', '8c4', '+j1']
 app.g = Game()
 @socketio.on('init')
 def restart():

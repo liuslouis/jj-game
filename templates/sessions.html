@@ -5,9 +5,8 @@
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.slim.js"></script>
 
-
         <link rel="stylesheet" type="text/css" href="cards.css" media="screen" />
-        <script type="text/javascript"><!--
+        <script type="text/javascript">
         $(document).ready(function(){
             $('.options').addClass('active');
             $('.toggle li').click(function(){
@@ -18,7 +17,7 @@
                 $('html').attr('xml:lang', $(this).text());
             });
         });
-        //--></script>
+        </script>
         <style type="text/css">
             body {
                 margin: 2em 20%;
@@ -111,7 +110,6 @@
                 </li>
                 {% endfor %}
             </ul>
-            <div class="clear"></div>
 
 
             {% for player in user_players %}
@@ -136,7 +134,6 @@
                     </li>
                     {% endfor %}
                 </ul>
-                <div class="clear"></div>
             </form>
             {% endfor %}
         </div>
